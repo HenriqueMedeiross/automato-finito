@@ -55,6 +55,15 @@ for i in range(c): # Preenchimento das cadeias de entradas
 
 def main(entry):
     states = [0] # Estado inicial sempre q_0
+    if entry == '-': # A entrada vazia só aceita caso o estados estados de aceitaçao contenham q0
+        for state in states:
+            if state in F:
+                print('aceita')
+                return None
+            else: 
+                print('rejeita')
+                return None
+
     final_states = test(entry, states, 0)
     if ContainFinalState(final_states): # Testa se a cadeia final gerada pertence a linguagem
         print('aceita')
