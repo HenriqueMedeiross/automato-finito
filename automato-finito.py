@@ -34,13 +34,12 @@ t = input() # Numero de transiçoes
 n = int(n) 
 t = int(t)
 E = E[1:] # Lista dos meus simbolos do alfabeto
-E.append('-') # Inclui a cadeia vazia no alfabeto
 
 F = list(map(int,F[1:])) # Conjunto dos meus estados finais de aceitaçao (dtype == int)
 
 T = [{l:[] for l in E} for i in range(n)]
 for i in range(t): # Preenche todas as transiçoes na tabela de transiçoes criada acima
-    tran = input().replace(" ","")
+    tran = input().split(" ")
     start = int(tran[0])
     to = int(tran[2])
     symb = tran[1]
@@ -53,6 +52,7 @@ for i in range(c): # Preenchimento das cadeias de entradas
     chain = input()
     my_entries.append(chain)
 
+# Inicio da verificaçao
 def main(entry):
     states = [0] # Estado inicial sempre q_0
     if entry == '-': # A entrada vazia só aceita caso o estados estados de aceitaçao contenham q0
@@ -87,7 +87,6 @@ def test(entry, states, pos):
         return None
 
     symb = entry[pos]
-    
     # BACKTRACKING:
     for coming in states: # Percorre todos os possiveis estados em analize atualmente
         going = T[coming][symb]
