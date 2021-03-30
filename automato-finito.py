@@ -24,10 +24,11 @@
 #
 # 
 # 
-# 
+#
+
 # Definiçoes de entrada
 n = input() # Qtd estados
-E = input().split(" ") # Qtd simbolos no alfabeto / alfabeto, <3 a b c> ou <6 a b c d e f>
+E = [2,'a','b'] # input().split(" ") # Qtd simbolos no alfabeto / alfabeto, <3 a b c> ou <6 a b c d e f>
 F = input().split(" ") # Qtd de estados de aceitaçao / estados, <1 2> ou <4 0 1 2 3>
 t = input() # Numero de transiçoes
 
@@ -45,12 +46,12 @@ for i in range(t): # Preenche todas as transiçoes na tabela de transiçoes cria
     symb = tran[1]
     T[start][symb].append(to)
 
-c = int(input()) # Numero de cadeias a serem avaliadas
-my_entries = []
+# c = int(input()) # Numero de cadeias a serem avaliadas
+# my_entries = []
 
-for i in range(c): # Preenchimento das cadeias de entradas
-    chain = input()
-    my_entries.append(chain)
+# for i in range(c): # Preenchimento das cadeias de entradas
+#     chain = input()
+#     my_entries.append(chain)
 
 # Inicio da verificaçao
 def main(entry):
@@ -66,9 +67,9 @@ def main(entry):
 
     final_states = test(entry, states, 0)
     if ContainFinalState(final_states): # Testa se a cadeia final gerada pertence a linguagem
-        print('aceita')
-    else:
-        print('rejeita')
+        print('aceita --- ' + entry)
+    # else:
+    #     print('rejeita --- '+ entry)
 
 def ContainFinalState(states): # Confere se algum estado do conjunto atual está contido nos estados finais
     if states == None: 
@@ -82,20 +83,40 @@ def ContainFinalState(states): # Confere se algum estado do conjunto atual está
 def test(entry, states, pos):
     if len(entry) == pos: 
         if ContainFinalState(states):
-            return states   # Se estivermos percorrido toda a cadeia estivermos em um conjunto que contém algum estado final
-                            # retorna o conjunto de estados que estão sendo analizados
+            return states   # Se estivermos percorrido toda 
+                            # a cadeia estivermos em um conjunto que
+                            # contém algum estado final
+                            # retorna o conjunto de estados 
+                            # que estão sendo analizados
         return None
-
     symb = entry[pos]
     # BACKTRACKING:
-    for coming in states: # Percorre todos os possiveis estados em analize atualmente
+    for coming in states: # Percorre todos os possiveis
+                          # estados em analize atualmente
         going = T[coming][symb]
         if len(going) == 0: 
-            return None # Sem transicoes saindo do estado "coming" processando o símbolo "symb"
-        new_transition = test(entry,going,pos+1) # Se houver transiçao, vai para este conjunto de estados e analisa o proximo elemento
+            return None # Estado sem saída
+
+        # Se houver transiçao, vai para o conjunto going
+        # de estados e analisa o proximo elemento
+        new_transition = test(entry,going,pos+1)
         if new_transition != None: 
             return new_transition
     return None
 
-for i in my_entries:
+# CRIANDO OS INPUTS DE TESTE
+from itertools import permutations as prm
+a = ''
+b = ''
+total_list = []
+num_elementos = 6
+for i in range(1,num_elementos+1):
+    a = a+'a'
+    b = b+'b'
+    possibilidades = prm(a+b,i) # Calculo das permutaçoes de a e b para i elementos
+    my_list = list(dict.fromkeys(list(possibilidades))) # Remove as duplicatas
+    for c in my_list:
+        total_list.append("".join(c))
+
+for i in total_list:
     main(i)
